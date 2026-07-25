@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 1 Workbook | Foundations of Agriselling</title>
+  <meta name="description" content="End-of-module workbook activity for Foundations of Agriselling Module 1." />
+  <style>
+    :root {
+      --black: #1f1f1f;
+      --gold: #cfb991;
+      --gold-dark: #8e6f3e;
+      --cream: #f8f5ef;
+      --white: #ffffff;
+      --gray-100: #f3f4f6;
+      --gray-300: #d1d5db;
+      --gray-600: #4b5563;
+      --success: #2f6b45;
+      --warning: #8a5a13;
+      --radius: 22px;
+      --shadow: 0 18px 55px rgba(20, 20, 20, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--black);
+      background: linear-gradient(180deg, #f6f2ea 0%, #ffffff 34%, #f7f7f6 100%);
+      line-height: 1.55;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(31,31,31,.97);
+      color: white;
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 13px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--gold); color: var(--black); font-weight: 900; letter-spacing: .04em;
+      flex: 0 0 auto;
+    }
+    .brand-copy { min-width: 0; }
+    .brand-copy strong { display: block; font-size: .95rem; }
+    .brand-copy span { display: block; color: #ddd4c7; font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .save-status { font-size: .8rem; color: #e9e3db; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .save-dot { width: 9px; height: 9px; border-radius: 99px; background: #75c78e; box-shadow: 0 0 0 4px rgba(117,199,142,.15); }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 58px 22px 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(290px, .7fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-main, .progress-card {
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      position: relative;
+      overflow: hidden;
+      padding: 42px;
+      color: white;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(207,185,145,.28), transparent 30%),
+        linear-gradient(135deg, #1f1f1f 0%, #32302d 100%);
+    }
+    .hero-main:after {
+      content: "";
+      position: absolute; right: -55px; bottom: -70px;
+      width: 210px; height: 210px; border-radius: 50%;
+      border: 38px solid rgba(207,185,145,.12);
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 11px; border-radius: 999px;
+      background: rgba(207,185,145,.14); border: 1px solid rgba(207,185,145,.5);
+      color: #f3e8d4; font-weight: 800; font-size: .76rem; text-transform: uppercase; letter-spacing: .09em;
+    }
+    h1 { font-size: clamp(2rem, 4vw, 3.65rem); line-height: 1.04; margin: 20px 0 16px; max-width: 760px; letter-spacing: -.035em; }
+    .hero-main p { max-width: 730px; color: #eee9e1; font-size: 1.05rem; margin: 0; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 25px; }
+    .hero-tag { padding: 7px 11px; border-radius: 10px; background: rgba(255,255,255,.08); color: #f6f3ef; font-size: .82rem; }
+
+    .progress-card {
+      background: var(--white);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #ebe6dc;
+    }
+    .progress-card h2 { margin: 0 0 7px; font-size: 1.15rem; }
+    .progress-card p { margin: 0; color: var(--gray-600); font-size: .9rem; }
+    .progress-ring-wrap { display: flex; align-items: center; gap: 19px; margin: 24px 0; }
+    .ring {
+      --p: 0;
+      width: 104px; height: 104px; border-radius: 50%;
+      background: conic-gradient(var(--gold-dark) calc(var(--p) * 1%), #ece8df 0);
+      display: grid; place-items: center; flex: 0 0 auto;
+    }
+    .ring:before { content: ""; width: 78px; height: 78px; border-radius: 50%; background: white; position: absolute; }
+    .ring-value { position: relative; z-index: 1; font-weight: 900; font-size: 1.2rem; }
+    .progress-detail strong { display: block; font-size: 1.05rem; }
+    .progress-detail span { display: block; color: var(--gray-600); font-size: .82rem; margin-top: 4px; }
+    .mini-progress { height: 9px; border-radius: 99px; background: #ece8df; overflow: hidden; }
+    .mini-progress > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--gold-dark), var(--gold)); transition: width .25s ease; }
+
+    .layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 22px 80px;
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 25px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky; top: 88px;
+      background: white;
+      border: 1px solid #e9e5dd;
+      border-radius: var(--radius);
+      padding: 17px;
+      box-shadow: 0 12px 35px rgba(20,20,20,.06);
+    }
+    .sidebar-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .11em; color: #70685d; font-weight: 900; padding: 7px 8px 10px; }
+    .nav-link {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: #393632;
+      padding: 10px 9px; border-radius: 11px; font-size: .86rem; font-weight: 700;
+    }
+    .nav-link:hover { background: var(--cream); }
+    .nav-num { width: 25px; height: 25px; border-radius: 8px; background: #eee9df; display: grid; place-items: center; font-size: .72rem; flex: 0 0 auto; }
+    .nav-link.complete .nav-num { background: #dceade; color: var(--success); }
+
+    .content { min-width: 0; }
+    .intro-note {
+      background: #fffaf0;
+      border: 1px solid #e5d2a9;
+      border-left: 5px solid var(--gold-dark);
+      padding: 18px 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    .intro-note strong { display: block; margin-bottom: 3px; }
+    .intro-note p { margin: 0; color: #5d5345; font-size: .9rem; }
+
+    .section-card {
+      scroll-margin-top: 95px;
+      background: white;
+      border: 1px solid #e8e5df;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      box-shadow: 0 14px 38px rgba(31,31,31,.055);
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 24px 27px 18px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      border-bottom: 1px solid #eeeae4;
+      background: linear-gradient(180deg, #fff 0%, #fdfbf8 100%);
+    }
+    .section-icon { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: var(--gold); font-size: 1.15rem; flex: 0 0 auto; }
+    .section-head h2 { margin: 0 0 4px; font-size: 1.22rem; }
+    .section-head p { margin: 0; color: var(--gray-600); font-size: .88rem; }
+    .section-body { padding: 25px 27px 29px; }
+
+    .field { margin-bottom: 20px; }
+    .field:last-child { margin-bottom: 0; }
+    label, legend { display: block; font-weight: 800; margin-bottom: 7px; font-size: .91rem; }
+    .hint { margin: -2px 0 8px; font-size: .79rem; color: #6a655f; }
+    input[type="text"], textarea, select {
+      width: 100%; border: 1px solid #cfcac1; border-radius: 12px;
+      padding: 12px 13px; color: var(--black); background: white;
+      outline: none; transition: .18s ease; resize: vertical;
+    }
+    input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--gold-dark); box-shadow: 0 0 0 4px rgba(142,111,62,.12); }
+    textarea { min-height: 105px; }
+    textarea.tall { min-height: 145px; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+    .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .choice {
+      position: relative; display: flex; align-items: flex-start; gap: 10px;
+      border: 1px solid #ded9d0; border-radius: 13px; padding: 12px;
+      background: #fff; transition: .16s ease;
+    }
+    .choice:hover { border-color: #b49a6d; background: #fffcf7; }
+    .choice input { margin-top: 3px; accent-color: var(--gold-dark); }
+    .choice span { font-size: .87rem; }
+
+    .stakeholder-list { display: grid; gap: 11px; }
+    .stakeholder-row { display: grid; grid-template-columns: 1.1fr 1fr 1.4fr 40px; gap: 9px; align-items: center; }
+    .stakeholder-row input, .stakeholder-row select { padding: 10px; }
+    .remove-row { width: 38px; height: 38px; border: 0; border-radius: 10px; background: #f2eeea; color: #7c3c34; font-weight: 900; }
+    .add-row { border: 1px dashed #ad9a7c; background: #fffcf7; color: #5f4a2b; border-radius: 11px; padding: 10px 13px; font-weight: 800; margin-top: 11px; }
+
+    .commitment-box { background: #f5f7f3; border: 1px solid #cfddcf; border-radius: 15px; padding: 17px; }
+    .rating-wrap { display: flex; flex-wrap: wrap; gap: 9px; }
+    .rating-wrap label { margin: 0; }
+    .rating-wrap input { position: absolute; opacity: 0; }
+    .rating-wrap span {
+      width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+      border: 1px solid #cfcac1; background: white; font-weight: 900; cursor: pointer;
+    }
+    .rating-wrap input:checked + span { color: white; background: var(--gold-dark); border-color: var(--gold-dark); }
+
+    .footer-actions {
+      position: sticky; bottom: 0; z-index: 15;
+      background: rgba(255,255,255,.94); backdrop-filter: blur(10px);
+      border-top: 1px solid #dedad3;
+      box-shadow: 0 -10px 35px rgba(20,20,20,.08);
+    }
+    .footer-actions-inner {
+      max-width: 1180px; margin: 0 auto; padding: 13px 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    }
+    .footer-message strong { display: block; font-size: .88rem; }
+    .footer-message span { color: var(--gray-600); font-size: .76rem; }
+    .buttons { display: flex; gap: 9px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn { border-radius: 12px; padding: 11px 16px; font-weight: 850; border: 1px solid transparent; }
+    .btn-secondary { background: white; border-color: #bbb4aa; color: #39342e; }
+    .btn-primary { background: var(--black); color: white; }
+    .btn-gold { background: var(--gold); color: var(--black); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+
+    .toast {
+      position: fixed; right: 22px; bottom: 86px; z-index: 50;
+      background: #1f1f1f; color: white; padding: 12px 15px; border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.22); transform: translateY(18px); opacity: 0; pointer-events: none; transition: .2s ease;
+      font-size: .85rem;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; padding-top: 32px; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .hero-main { padding: 32px 25px; }
+      .grid-2, .choice-grid { grid-template-columns: 1fr; }
+      .stakeholder-row { grid-template-columns: 1fr; padding: 13px; border: 1px solid #e4dfd6; border-radius: 12px; }
+      .remove-row { width: 100%; }
+      .footer-actions-inner { align-items: flex-start; }
+      .footer-message { display: none; }
+      .buttons { width: 100%; }
+      .btn { flex: 1; }
+    }
+
+    @media (max-width: 560px) {
+      .topbar-inner { padding: 10px 14px; }
+      .brand-copy span { max-width: 185px; }
+      .save-status span:last-child { display: none; }
+      .hero, .layout { padding-left: 14px; padding-right: 14px; }
+      .section-head, .section-body { padding-left: 18px; padding-right: 18px; }
+      .progress-ring-wrap { align-items: center; }
+      .buttons { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-lockup">
+        <div class="brand-mark">CAB</div>
+        <div class="brand-copy">
+          <strong>Foundations of Agriselling</strong>
+          <span>Module 1 Digital Workbook</span>
+        </div>
+      </div>
+      <div class="save-status"><span class="save-dot"></span><span id="saveStatus">Saved on this device</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-main">
+        <span class="eyebrow">Module 1 Application</span>
+        <h1>My Role in the Agricultural Value Chain</h1>
+        <p>Bring the entire module together by mapping your organization, the value you help deliver, the people who influence a buying decision, and the professional reputation you want to build.</p>
+        <div class="hero-tags">
+          <span class="hero-tag">Professional selling</span>
+          <span class="hero-tag">Value chain</span>
+          <span class="hero-tag">Value bundle</span>
+          <span class="hero-tag">Trust & ethics</span>
+        </div>
+      </div>
+
+      <aside class="progress-card">
+        <div>
+          <h2>Your workbook progress</h2>
+          <p>Your responses save automatically in this browser.</p>
+        </div>
+        <div class="progress-ring-wrap">
+          <div class="ring" id="progressRing"><span class="ring-value" id="progressPercent">0%</span></div>
+          <div class="progress-detail">
+            <strong id="progressLabel">Let’s get started</strong>
+            <span id="progressCount">0 of 14 key responses complete</span>
+          </div>
+        </div>
+        <div class="mini-progress"><div id="progressBar"></div></div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <nav class="sidebar" aria-label="Workbook sections">
+        <div class="sidebar-title">Workbook Sections</div>
+        <a class="nav-link" href="#about"><span class="nav-num">1</span><span>About You</span></a>
+        <a class="nav-link" href="#selling"><span class="nav-num">2</span><span>Selling Mindset</span></a>
+        <a class="nav-link" href="#value-chain"><span class="nav-num">3</span><span>Value Chain</span></a>
+        <a class="nav-link" href="#value-bundle"><span class="nav-num">4</span><span>Value Bundle</span></a>
+        <a class="nav-link" href="#stakeholders"><span class="nav-num">5</span><span>Stakeholders</span></a>
+        <a class="nav-link" href="#trust"><span class="nav-num">6</span><span>Trust & Ethics</span></a>
+        <a class="nav-link" href="#voice"><span class="nav-num">7</span><span>Voice of Customer</span></a>
+        <a class="nav-link" href="#next"><span class="nav-num">8</span><span>Next Step</span></a>
+      </nav>
+
+      <div class="content">
+        <div class="intro-note">
+          <strong>Before you begin</strong>
+          <p>There are no “perfect” answers. Use this activity to clarify how your role contributes to customer outcomes. You can return and revise your work before downloading the PDF.</p>
+        </div>
+
+        <form id="workbookForm" autocomplete="off">
+          <section class="section-card" id="about" data-section="about">
+            <div class="section-head">
+              <div class="section-icon">👤</div>
+              <div><h2>About You and Your Organization</h2><p>Give your workbook context and identify where you are starting.</p></div>
+            </div>
+            <div class="section-body">
+              <div class="grid-2">
+                <div class="field"><label for="learnerName">Your name</label><input id="learnerName" name="learnerName" type="text" data-required="true" placeholder="Enter your name" /></div>
+                <div class="field"><label for="organization">Organization</label><input id="organization" name="organization" type="text" data-required="true" placeholder="Company, cooperative, farm, or organization" /></div>
+              </div>
+              <div class="grid-2">
+                <div class="field"><label for="role">Your role</label><input id="role" name="role" type="text" data-required="true" placeholder="Your title or primary responsibility" /></div>
+                <div class="field"><label for="market">Primary market or customer segment</label><input id="market" name="market" type="text" data-required="true" placeholder="Who does your organization primarily serve?" /></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-card" id="selling" data-section="selling">
+            <div class="section-head">
+              <div class="section-icon">🤝</div>
+              <div><h2>Reframe Professional Selling</h2><p>Compare common assumptions about selling with a customer-centered approach.</p></div>
+            </div>
+            <div class="section-body">
+              <div class="field">
+                <label for="oldView">Before this module, what words or stereotypes came to mind when you heard “salesperson”?</label>
+                <textarea id="oldView" name="oldView" data-required="true" placeholder="For example: pushy, persuasive, quota-focused..."></textarea>
+              </div>
+              <div class="field">
+                <label for="newView">How would you now define professional selling?</label>
+                <p class="hint">Focus on what it means to help a customer make a sound buying decision.</p>
+                <textarea id="newView" name="newView" data-required="true" placeholder="Professional selling is..."></textarea>
+              </div>
+              <div class="field">
+                <label for="difference">What is the most important difference between product pitching and helping customers buy?</label>
+                <textarea id="difference" name="difference" data-required="true" placeholder="The key difference is..."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-card" id="value-chain" data-section="value-chain">
+            <div class="section-head">
+              <div class="section-icon">🔗</div>
+              <div><h2>Locate Your Organization in the Value Chain</h2><p>Identify where your organization creates value and how it connects to the broader agricultural system.</p></div>
+            </div>
+            <div class="section-body">
+              <fieldset class="field" style="border:0;padding:0;margin-top:0">
+                <legend>Which parts of the agricultural value chain connect directly to your work?</legend>
+                <p class="hint">Select all that apply.</p>
+                <div class="choice-grid">
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Input or equipment manufacturer" /><span>Input or equipment manufacturer</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Distributor or wholesaler" /><span>Distributor or wholesaler</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Retailer or dealer" /><span>Retailer or dealer</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Producer or grower" /><span>Producer or grower</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Processor or handler" /><span>Processor or handler</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Advisor or service provider" /><span>Advisor or service provider</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Downstream buyer or consumer market" /><span>Downstream buyer or consumer market</span></label>
+                  <label class="choice"><input type="checkbox" name="valueChain" value="Other" /><span>Other</span></label>
+                </div>
+              </fieldset>
+              <div class="field">
+                <label for="chainRole">Describe your organization’s role in the value chain.</label>
+                <textarea id="chainRole" name="chainRole" data-required="true" placeholder="We create, move, support, improve, or protect value by..."></textarea>
+              </div>
+              <div class="field">
+                <label for="downstreamImpact">Who is affected downstream when your organization performs well—or poorly?</label>
+                <textarea id="downstreamImpact" name="downstreamImpact" placeholder="Consider customers beyond the person who directly purchases from you."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-card" id="value-bundle" data-section="value-bundle">
+            <div class="section-head">
+              <div class="section-icon">📦</div>
+              <div><h2>Define Your Complete Value Bundle</h2><p>A customer buys more than a product. Capture the complete combination of value your organization provides.</p></div>
+            </div>
+            <div class="section-body">
+              <div class="grid-2">
+                <div class="field"><label for="productValue">Products or core solutions</label><textarea id="productValue" name="productValue" data-required="true" placeholder="What tangible product or core solution do you provide?"></textarea></div>
+                <div class="field"><label for="serviceValue">Service and support</label><textarea id="serviceValue" name="serviceValue" placeholder="Delivery, responsiveness, implementation, training, maintenance..."></textarea></div>
+                <div class="field"><label for="expertiseValue">Information and expertise</label><textarea id="expertiseValue" name="expertiseValue" placeholder="What knowledge helps customers reduce uncertainty or improve decisions?"></textarea></div>
+                <div class="field"><label for="relationshipValue">Relationships and confidence</label><textarea id="relationshipValue" name="relationshipValue" placeholder="How do reliability, access, and trust add value?"></textarea></div>
+              </div>
+              <div class="field"><label for="outcomeValue">What measurable business or personal outcomes can this value bundle help a customer achieve?</label><textarea id="outcomeValue" name="outcomeValue" data-required="true" placeholder="Examples might include greater yield, lower risk, time savings, improved quality, or stronger profitability."></textarea></div>
+            </div>
+          </section>
+
+          <section class="section-card" id="stakeholders" data-section="stakeholders">
+            <div class="section-head">
+              <div class="section-icon">🧭</div>
+              <div><h2>Map the Buying Stakeholders</h2><p>The apparent customer may not be the only person who must understand and believe in the value.</p></div>
+            </div>
+            <div class="section-body">
+              <p class="hint" style="margin-top:0">List the people or groups who may influence, approve, use, evaluate, or benefit from a purchase.</p>
+              <div class="stakeholder-list" id="stakeholderList"></div>
+              <button type="button" class="add-row" id="addStakeholder">+ Add another stakeholder</button>
+            </div>
+          </section>
+
+          <section class="section-card" id="trust" data-section="trust">
+            <div class="section-head">
+              <div class="section-icon">🛡️</div>
+              <div><h2>Protect Trust and Professional Reputation</h2><p>In agricultural markets, reputation travels quickly. Translate ethics into specific behaviors.</p></div>
+            </div>
+            <div class="section-body">
+              <div class="field"><label for="trustBehavior">What is one behavior that consistently earns trust in your market?</label><textarea id="trustBehavior" name="trustBehavior" data-required="true" placeholder="For example: being honest about fit, limitations, risks, or expected outcomes."></textarea></div>
+              <div class="field"><label for="pressureScenario">When might short-term sales pressure tempt someone to compromise that trust?</label><textarea id="pressureScenario" name="pressureScenario" placeholder="Describe a realistic pressure or difficult situation."></textarea></div>
+              <div class="commitment-box">
+                <div class="field"><label for="ethicsCommitment">Complete this statement: “Even when it costs me a sale, I will…”</label><textarea id="ethicsCommitment" name="ethicsCommitment" data-required="true" placeholder="Write your professional commitment."></textarea></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-card" id="voice" data-section="voice">
+            <div class="section-head">
+              <div class="section-icon">📣</div>
+              <div><h2>Serve as the Voice of the Customer</h2><p>Professional sellers do not only communicate value outward; they bring customer and market intelligence back into the organization.</p></div>
+            </div>
+            <div class="section-body">
+              <div class="field"><label for="customerInsight">What customer insight does your organization most need to hear right now?</label><textarea class="tall" id="customerInsight" name="customerInsight" data-required="true" placeholder="What are customers saying, experiencing, fearing, or trying to accomplish?"></textarea></div>
+              <div class="field"><label for="internalAudience">Who inside your organization needs this insight, and why?</label><textarea id="internalAudience" name="internalAudience" placeholder="Consider leadership, marketing, product, service, operations, or technical teams."></textarea></div>
+              <div class="field"><label for="feedbackAction">How could you communicate the insight in a way that leads to action?</label><textarea id="feedbackAction" name="feedbackAction" placeholder="What evidence, examples, patterns, or recommendation would be most useful?"></textarea></div>
+            </div>
+          </section>
+
+          <section class="section-card" id="next" data-section="next">
+            <div class="section-head">
+              <div class="section-icon">➡️</div>
+              <div><h2>Your Starting Point for Module 2</h2><p>Choose one customer relationship or opportunity you can examine more deeply as the course continues.</p></div>
+            </div>
+            <div class="section-body">
+              <div class="field"><label for="focusCustomer">Which customer, account, or customer type will you use as your ongoing example?</label><input id="focusCustomer" name="focusCustomer" type="text" data-required="true" placeholder="Use a general description if confidentiality is important" /></div>
+              <div class="field"><label for="focusReason">Why is this a useful customer to study?</label><textarea id="focusReason" name="focusReason" placeholder="Consider complexity, opportunity, relationship importance, or a current challenge."></textarea></div>
+              <div class="field">
+                <label>How confident are you that you currently understand this customer’s complete buying situation?</label>
+                <div class="rating-wrap" aria-label="Confidence rating from 1 to 5">
+                  <label><input type="radio" name="confidence" value="1" /><span>1</span></label>
+                  <label><input type="radio" name="confidence" value="2" /><span>2</span></label>
+                  <label><input type="radio" name="confidence" value="3" /><span>3</span></label>
+                  <label><input type="radio" name="confidence" value="4" /><span>4</span></label>
+                  <label><input type="radio" name="confidence" value="5" /><span>5</span></label>
+                </div>
+                <p class="hint" style="margin-top:8px">1 = very limited understanding; 5 = strong understanding</p>
+              </div>
+              <div class="field"><label for="nextQuestion">What is the first question you need to answer about this customer?</label><textarea id="nextQuestion" name="nextQuestion" data-required="true" placeholder="In Module 2, I need to learn..."></textarea></div>
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div class="footer-actions">
+    <div class="footer-actions-inner">
+      <div class="footer-message"><strong>Module 1 Workbook</strong><span>Drafts are stored only in this browser unless you download the PDF.</span></div>
+      <div class="buttons">
+        <button class="btn btn-secondary" type="button" id="clearButton">Clear draft</button>
+        <button class="btn btn-gold" type="button" id="previewButton">Review missing items</button>
+        <button class="btn btn-primary" type="button" id="pdfButton">Download Module 1 PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script>
+    const STORAGE_KEY = 'cab-agriselling-module1-v1';
+    const form = document.getElementById('workbookForm');
+    const toast = document.getElementById('toast');
+    const stakeholderList = document.getElementById('stakeholderList');
+    let saveTimer;
+    let stakeholderCounter = 0;
+
+    const requiredNames = [
+      'learnerName','organization','role','market','oldView','newView','difference','chainRole',
+      'productValue','outcomeValue','trustBehavior','ethicsCommitment','customerInsight','focusCustomer',
+      'nextQuestion'
+    ];
+
+    const stakeholderTypes = ['Decision maker','Influencer','User','Technical evaluator','Financial approver','Advisor','Beneficiary','Other'];
+    const influenceLevels = ['High influence','Moderate influence','Low influence','Unknown'];
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    function stakeholderTemplate(data = {}) {
+      stakeholderCounter += 1;
+      const row = document.createElement('div');
+      row.className = 'stakeholder-row';
+      row.dataset.id = data.id || `stakeholder-${stakeholderCounter}`;
+      row.innerHTML = `
+        <input type="text" aria-label="Stakeholder name or group" placeholder="Person or group" value="${escapeHtml(data.name || '')}">
+        <select aria-label="Stakeholder role">
+          <option value="">Role in decision</option>
+          ${stakeholderTypes.map(x => `<option ${data.type === x ? 'selected' : ''}>${x}</option>`).join('')}
+        </select>
+        <input type="text" aria-label="What the stakeholder values" placeholder="What matters to them?" value="${escapeHtml(data.value || '')}">
+        <button type="button" class="remove-row" aria-label="Remove stakeholder">×</button>`;
+      row.querySelector('.remove-row').addEventListener('click', () => {
+        if (stakeholderList.children.length > 1) row.remove();
+        else row.querySelectorAll('input,select').forEach(el => el.value = '');
+        scheduleSave(); updateProgress();
+      });
+      row.querySelectorAll('input,select').forEach(el => el.addEventListener('input', () => { scheduleSave(); updateProgress(); }));
+      stakeholderList.appendChild(row);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    }
+
+    function collectData() {
+      const fd = new FormData(form);
+      const data = {};
+      for (const [key, value] of fd.entries()) {
+        if (key === 'valueChain') continue;
+        data[key] = value;
+      }
+      data.valueChain = fd.getAll('valueChain');
+      data.stakeholders = [...stakeholderList.children].map(row => ({
+        id: row.dataset.id,
+        name: row.children[0].value,
+        type: row.children[1].value,
+        value: row.children[2].value
+      }));
+      data.savedAt = new Date().toISOString();
+      return data;
+    }
+
+    function restoreData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        stakeholderTemplate(); stakeholderTemplate(); stakeholderTemplate();
+        updateProgress(); return;
+      }
+      try {
+        const data = JSON.parse(saved);
+        Object.entries(data).forEach(([key, value]) => {
+          if (['valueChain','stakeholders','savedAt'].includes(key)) return;
+          const fields = form.elements[key];
+          if (!fields) return;
+          if (fields instanceof RadioNodeList) {
+            [...fields].forEach(el => el.checked = el.value === value);
+          } else fields.value = value || '';
+        });
+        (data.valueChain || []).forEach(value => {
+          const box = [...form.querySelectorAll('[name="valueChain"]')].find(el => el.value === value);
+          if (box) box.checked = true;
+        });
+        (data.stakeholders?.length ? data.stakeholders : [{},{},{}]).forEach(stakeholderTemplate);
+        updateSaveStatus(data.savedAt);
+      } catch (e) {
+        stakeholderTemplate(); stakeholderTemplate(); stakeholderTemplate();
+      }
+      updateProgress();
+    }
+
+    function scheduleSave() {
+      document.getElementById('saveStatus').textContent = 'Saving…';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveData, 450);
+    }
+
+    function saveData() {
+      const data = collectData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      updateSaveStatus(data.savedAt);
+    }
+
+    function updateSaveStatus(iso) {
+      const time = iso ? new Date(iso) : new Date();
+      document.getElementById('saveStatus').textContent = `Saved ${time.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`;
+    }
+
+    function hasStakeholder() {
+      return [...stakeholderList.children].some(row => row.children[0].value.trim() && row.children[1].value);
+    }
+
+    function completionState() {
+      const completed = requiredNames.filter(name => String(form.elements[name]?.value || '').trim()).length;
+      const stakeholderDone = hasStakeholder() ? 1 : 0;
+      return { completed: completed + stakeholderDone, total: requiredNames.length + 1 };
+    }
+
+    function updateProgress() {
+      const {completed,total} = completionState();
+      const percent = Math.round((completed / total) * 100);
+      document.getElementById('progressRing').style.setProperty('--p', percent);
+      document.getElementById('progressPercent').textContent = `${percent}%`;
+      document.getElementById('progressCount').textContent = `${completed} of ${total} key responses complete`;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+      document.getElementById('progressLabel').textContent = percent === 100 ? 'Ready to download' : percent >= 70 ? 'Almost there' : percent >= 30 ? 'Good progress' : 'Let’s get started';
+
+      document.querySelectorAll('[data-section]').forEach(section => {
+        const required = [...section.querySelectorAll('[data-required="true"]')];
+        const complete = required.length && required.every(el => String(el.value || '').trim());
+        const link = document.querySelector(`.nav-link[href="#${section.id}"]`);
+        link?.classList.toggle('complete', complete);
+      });
+    }
+
+    function missingItems() {
+      const labelMap = {
+        learnerName:'Your name', organization:'Organization', role:'Your role', market:'Primary market', oldView:'Selling stereotypes',
+        newView:'Definition of professional selling', difference:'Pitching vs. helping customers buy', chainRole:'Role in the value chain',
+        productValue:'Core products or solutions', outcomeValue:'Customer outcomes', trustBehavior:'Trust-building behavior',
+        ethicsCommitment:'Ethics commitment', customerInsight:'Customer insight', focusCustomer:'Module 2 focus customer', nextQuestion:'First customer question'
+      };
+      const missing = requiredNames.filter(name => !String(form.elements[name]?.value || '').trim()).map(name => labelMap[name]);
+      if (!hasStakeholder()) missing.push('At least one buying stakeholder');
+      return missing;
+    }
+
+    function reviewMissing() {
+      const missing = missingItems();
+      if (!missing.length) return showToast('Everything is complete—your workbook is ready!');
+      showToast(`${missing.length} key item${missing.length === 1 ? '' : 's'} still incomplete.`);
+      const firstName = requiredNames.find(name => !String(form.elements[name]?.value || '').trim());
+      if (firstName) form.elements[firstName].scrollIntoView({behavior:'smooth', block:'center'});
+      else document.getElementById('stakeholders').scrollIntoView({behavior:'smooth'});
+    }
+
+    function safeFileName(value) {
+      return (value || 'Learner').trim().replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'');
+    }
+
+    function pdfText(doc, text, x, y, width, options={}) {
+      const value = String(text || 'Not provided').trim() || 'Not provided';
+      const lines = doc.splitTextToSize(value, width);
+      const lineHeight = options.lineHeight || 5.4;
+      if (y + lines.length * lineHeight > 272) {
+        doc.addPage(); addPdfHeader(doc); y = 28;
+      }
+      doc.text(lines, x, y);
+      return y + lines.length * lineHeight;
+    }
+
+    function addPdfHeader(doc) {
+      const w = doc.internal.pageSize.getWidth();
+      doc.setFillColor(31,31,31); doc.rect(0,0,w,16,'F');
+      doc.setFillColor(207,185,145); doc.rect(0,16,w,2,'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+      doc.text('FOUNDATIONS OF AGRISELLING  |  MODULE 1 WORKBOOK', 14, 10.5);
+      doc.setTextColor(31,31,31);
+    }
+
+    function sectionTitle(doc, title, y) {
+      if (y > 255) { doc.addPage(); addPdfHeader(doc); y = 28; }
+      doc.setFillColor(245,241,233); doc.roundedRect(14,y-6,182,12,2,2,'F');
+      doc.setTextColor(45,42,38); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.text(title,18,y+1.5);
+      return y + 14;
+    }
+
+    function questionAnswer(doc, label, answer, y) {
+      if (y > 255) { doc.addPage(); addPdfHeader(doc); y = 28; }
+      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(72,63,51);
+      y = pdfText(doc,label,14,y,182,{lineHeight:4.8}) + 1;
+      doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(31,31,31);
+      y = pdfText(doc,answer,14,y,182,{lineHeight:5.2});
+      return y + 6;
+    }
+
+    async function generatePdf() {
+      saveData();
+      if (!window.jspdf) { showToast('PDF library could not load. Check your internet connection.'); return; }
+      const button = document.getElementById('pdfButton');
+      button.disabled = true; button.textContent = 'Building PDF…';
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({unit:'mm',format:'letter'});
+        const data = collectData();
+        const w = doc.internal.pageSize.getWidth();
+
+        doc.setFillColor(31,31,31); doc.rect(0,0,w,279,'F');
+        doc.setFillColor(207,185,145); doc.rect(0,0,10,279,'F');
+        doc.setTextColor(207,185,145); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.text('FOUNDATIONS OF AGRISELLING',22,39);
+        doc.setTextColor(255,255,255); doc.setFontSize(29); doc.text(doc.splitTextToSize('My Role in the Agricultural Value Chain',165),22,60);
+        doc.setDrawColor(207,185,145); doc.setLineWidth(.8); doc.line(22,102,116,102);
+        doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(235,232,226);
+        doc.text(`Module 1 Digital Workbook`,22,116);
+        doc.setFontSize(10); doc.text(`Prepared by: ${data.learnerName || 'Learner'}`,22,142);
+        doc.text(`Organization: ${data.organization || 'Not provided'}`,22,151);
+        doc.text(`Role: ${data.role || 'Not provided'}`,22,160);
+        doc.text(`Completed: ${new Date().toLocaleDateString()}`,22,169);
+        doc.setFontSize(8.5); doc.setTextColor(190,187,181); doc.text('Center for Food and Agricultural Business',22,256);
+
+        doc.addPage(); addPdfHeader(doc);
+        let y = 30;
+        y = sectionTitle(doc,'1. About You and Your Organization',y);
+        y = questionAnswer(doc,'Primary market or customer segment',data.market,y);
+
+        y = sectionTitle(doc,'2. Reframing Professional Selling',y);
+        y = questionAnswer(doc,'Initial words or stereotypes associated with selling',data.oldView,y);
+        y = questionAnswer(doc,'My definition of professional selling',data.newView,y);
+        y = questionAnswer(doc,'The difference between product pitching and helping customers buy',data.difference,y);
+
+        y = sectionTitle(doc,'3. My Organization in the Value Chain',y);
+        y = questionAnswer(doc,'Value-chain connections',(data.valueChain || []).join(', ') || 'Not selected',y);
+        y = questionAnswer(doc,'Our role in the value chain',data.chainRole,y);
+        y = questionAnswer(doc,'Downstream impact',data.downstreamImpact,y);
+
+        y = sectionTitle(doc,'4. Our Complete Value Bundle',y);
+        y = questionAnswer(doc,'Products or core solutions',data.productValue,y);
+        y = questionAnswer(doc,'Service and support',data.serviceValue,y);
+        y = questionAnswer(doc,'Information and expertise',data.expertiseValue,y);
+        y = questionAnswer(doc,'Relationships and confidence',data.relationshipValue,y);
+        y = questionAnswer(doc,'Customer outcomes',data.outcomeValue,y);
+
+        y = sectionTitle(doc,'5. Buying Stakeholder Map',y);
+        const stakeholders = (data.stakeholders || []).filter(s => s.name || s.type || s.value);
+        if (!stakeholders.length) y = questionAnswer(doc,'Stakeholders','No stakeholders listed',y);
+        else stakeholders.forEach((s,i) => { y = questionAnswer(doc,`${i+1}. ${s.name || 'Unnamed stakeholder'} — ${s.type || 'Role not selected'}`,s.value || 'What matters to this stakeholder was not provided.',y); });
+
+        y = sectionTitle(doc,'6. Trust, Ethics, and Professional Reputation',y);
+        y = questionAnswer(doc,'A behavior that earns trust',data.trustBehavior,y);
+        y = questionAnswer(doc,'A situation that can place trust under pressure',data.pressureScenario,y);
+        y = questionAnswer(doc,'My professional commitment',data.ethicsCommitment,y);
+
+        y = sectionTitle(doc,'7. Serving as the Voice of the Customer',y);
+        y = questionAnswer(doc,'Customer insight my organization needs to hear',data.customerInsight,y);
+        y = questionAnswer(doc,'Who needs this insight and why',data.internalAudience,y);
+        y = questionAnswer(doc,'How I can communicate the insight to encourage action',data.feedbackAction,y);
+
+        y = sectionTitle(doc,'8. Starting Point for Module 2',y);
+        y = questionAnswer(doc,'Customer, account, or customer type I will study',data.focusCustomer,y);
+        y = questionAnswer(doc,'Why this is a useful customer to study',data.focusReason,y);
+        y = questionAnswer(doc,'Current confidence rating',data.confidence ? `${data.confidence} out of 5` : 'Not rated',y);
+        y = questionAnswer(doc,'The first question I need to answer',data.nextQuestion,y);
+
+        const pages = doc.getNumberOfPages();
+        for (let i=2; i<=pages; i++) {
+          doc.setPage(i); doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(110,105,98);
+          doc.text(`Module 1 Workbook  •  ${data.learnerName || 'Learner'}`,14,272);
+          doc.text(`${i-1} of ${pages-1}`,190,272,{align:'right'});
+        }
+        doc.save(`${safeFileName(data.learnerName)}-Module-1-Workbook.pdf`);
+        showToast('Your Module 1 PDF has been downloaded.');
+      } catch (e) {
+        console.error(e); showToast('Something went wrong while building the PDF.');
+      } finally {
+        button.disabled = false; button.textContent = 'Download Module 1 PDF';
+      }
+    }
+
+    form.addEventListener('input', () => { scheduleSave(); updateProgress(); });
+    form.addEventListener('change', () => { scheduleSave(); updateProgress(); });
+    document.getElementById('addStakeholder').addEventListener('click', () => { stakeholderTemplate(); scheduleSave(); });
+    document.getElementById('previewButton').addEventListener('click', reviewMissing);
+    document.getElementById('pdfButton').addEventListener('click', generatePdf);
+    document.getElementById('clearButton').addEventListener('click', () => {
+      if (!confirm('Clear all saved Module 1 responses from this browser?')) return;
+      localStorage.removeItem(STORAGE_KEY); form.reset(); stakeholderList.innerHTML='';
+      stakeholderTemplate(); stakeholderTemplate(); stakeholderTemplate(); updateProgress(); saveData(); showToast('Your draft has been cleared.');
+    });
+
+    restoreData();
+  </script>
+</body>
+</html>
